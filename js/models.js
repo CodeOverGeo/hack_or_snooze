@@ -75,12 +75,12 @@ class StoryList {
 
   async addStory(user, { title, author, url }) {
     const token = user.loginToken;
-    const res = await axios({
+    const response = await axios({
       method: 'POST',
       url: `${BASE_URL}/stories`,
       data: { token, story: { title, author, url } },
     });
-    const story = new Story(res.data.story);
+    const story = new Story(response.data.story);
     this.stories.unshift(story);
     user.ownStories.unshift(story);
     return story;
@@ -198,5 +198,24 @@ class User {
     }
   }
 
-  async addFavorite(story) {}
+  async addFavorite(story) {
+    this.favorites.push(story);
+    await this.favoriteStoryToggle('add', story)
+  }
+
+  async removeFavorite(story){
+    this.favorites = this.favorites.filter(s => s.storyID !=story.storyId);
+    await this.favoriteStoryToggle('remove', story);
+  }
+
+  async favoriteStoryToggle(reqMethod, story){
+    const method = reqMethod === 'add' ? 'POST' : 'DELETE';
+    const token = this.loginToken;
+    await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: method;
+      data { token },
+
+    });
+  }
 }
