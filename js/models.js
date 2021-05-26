@@ -85,6 +85,24 @@ class StoryList {
     user.ownStories.unshift(story);
     return story;
   }
+
+  //Delete the user submitted story from API
+
+  async removeStory(user, storyId) {
+    const token = user.loginToken;
+    await axios({
+      url: `${BASE_URL}/stories/${storyId}`,
+      method: 'DELETE',
+      data: { token: user.loginToken },
+    });
+
+    //filter out the story being removed from the current stories
+    this.stories = this.stories.filter((story) => story.storyId !== storyId);
+
+    //filter out the story being removed from user story arrays (fav, my stories)
+    user.ownStories = user.ownStories.filter((s) => s.storyId !== storyId);
+    user.favorites = user.favorites.filter((s) => s.storyId !== storyId);
+  }
 }
 
 /******************************************************************************
@@ -198,24 +216,42 @@ class User {
     }
   }
 
+  //Add story to favorite array of user and update API with new favorite
+  //Pass add as a parameter to use POST
+
   async addFavorite(story) {
     this.favorites.push(story);
-    await this.favoriteStoryToggle('add', story)
+    await this.favoriteStoryToggle('add', story);
   }
 
-  async removeFavorite(story){
-    this.favorites = this.favorites.filter(s => s.storyID !=story.storyId);
+  //Remove story from the favorite array by looping through and adding in all
+  //favorites that do not match the storyId of the of the story being story being removed.
+  //Update the API by passing remove to use DELETE
+
+  async removeFavorite(story) {
+    this.favorites = this.favorites.filter((s) => s.storyId != story.storyId);
     await this.favoriteStoryToggle('remove', story);
   }
 
-  async favoriteStoryToggle(reqMethod, story){
+  //Update API with story favorites or not favorites. Use POST to add new favorites
+  //to the API, use DELETE to remove favorites off the API
+  //Update with storyId to keep all stories unique
+
+  async favoriteStoryToggle(reqMethod, story) {
     const method = reqMethod === 'add' ? 'POST' : 'DELETE';
     const token = this.loginToken;
     await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
-      method: method;
-      data { token },
-
+      method: method,
+      data: { token },
     });
+  }
+
+  // Cycles through stories created in the story Class and check whether or not the
+  // story id is in the favorite array created in the user Class for this particular user
+  // returns a boolean value for each story passed in
+
+  isFavorite(story) {
+    return this.favorites.some((s) => s.storyId === story.storyId);
   }
 }

@@ -43,3 +43,22 @@ function navSubmitStoryClick(evt) {
 }
 
 $navSubmitStory.on('click', navSubmitStoryClick);
+
+//Handle clicking on favorite in nav bar
+
+function navFavoriteClick(e) {
+  hidePageComponents();
+  putFavoritesListOnPage();
+}
+
+$body.on('click', '#nav-favorites', navFavoriteClick);
+
+//handle clicking on my stories in nav bar
+
+function navMyStories(e) {
+  hidePageComponents();
+  putUserStoriesOnPage();
+  $ownStories.show();
+}
+
+$body.on('click', '#nav-my-stories', navMyStories);
