@@ -50,6 +50,7 @@ class StoryList {
     //  **not** an instance method. Rather, it is a method that is called on the
     //  class directly. Why doesn't it make sense for getStories to be an
     //  instance method?
+    //  --it doesn't use variables in the constuctor or call on the StoryList object
 
     // query the /stories endpoint (no auth required)
     const response = await axios({

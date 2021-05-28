@@ -20,8 +20,6 @@ async function getAndShowStoriesOnStart() {
  */
 
 function generateStoryMarkup(story, showDeleteBtn = false) {
-  // console.debug("generateStoryMarkup", story);
-
   const hostName = story.getHostName();
 
   //check if there is a current user, return true/false, use info to
@@ -29,8 +27,8 @@ function generateStoryMarkup(story, showDeleteBtn = false) {
 
   const showStar = Boolean(currentUser);
 
-  //if showDeleteBtn is default, to not show button
-  //pass in true for logged in user
+  //if showDeleteBtn is default, do not show button
+  //pass in true for logged in user, to show button
 
   return $(`
       <li id="${story.storyId}">      
@@ -70,7 +68,7 @@ function getStarHTML(story, user) {
 
 function putStoriesOnPage() {
   console.debug('putStoriesOnPage');
-
+  // clear the story DOM to ensure a clean element to rebuild from
   $allStoriesList.empty();
 
   // loop through all of our stories and generate HTML for them
@@ -99,7 +97,7 @@ async function submitNewStory(e) {
 
   const $story = generateStoryMarkup(story);
   $allStoriesList.prepend($story);
-
+  // use JQuery to tuck the form after submission and reset the form
   $submitForm.slideUp();
   $submitForm.trigger('reset');
 }
