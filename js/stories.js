@@ -82,6 +82,7 @@ function putStoriesOnPage() {
 
 // Handles form submition of new story. Grabs data from form, calls .addStory method, adds it to page,
 // hides form
+// ***************************************************************************************
 
 async function submitNewStory(e) {
   e.preventDefault();

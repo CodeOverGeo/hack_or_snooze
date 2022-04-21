@@ -74,6 +74,8 @@ class StoryList {
 
   // in order to post data, need a token, have to establish token info from user class
 
+  // *****************************************************************************************
+
   async addStory(user, { title, author, url }) {
     const token = user.loginToken;
     const response = await axios({
@@ -219,6 +221,8 @@ class User {
 
   //Add story to favorite array of user and update API with new favorite
   //Pass add as a parameter to use POST
+
+  // **************************************************************************************
 
   async addFavorite(story) {
     this.favorites.push(story);

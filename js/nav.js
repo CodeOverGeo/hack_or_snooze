@@ -35,6 +35,8 @@ function updateNavOnLogin() {
   $navUserProfile.text(`${currentUser.username}`).show();
 }
 
+// ************************************************************************************
+
 function navSubmitStoryClick(evt) {
   console.debug('navSubmitStoryClick', evt);
   hidePageComponents();
@@ -45,7 +47,7 @@ function navSubmitStoryClick(evt) {
 $navSubmitStory.on('click', navSubmitStoryClick);
 
 //Handle clicking on favorite in nav bar
-
+// *****************************************************************************************
 function navFavoriteClick(e) {
   hidePageComponents();
   putFavoritesListOnPage();

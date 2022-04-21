@@ -28,6 +28,8 @@ const $navSubmitStory = $('#nav-submit-story');
 
 // Add components to function as further features are added to applications
 
+// ************************************************************************************
+
 function hidePageComponents() {
   const components = [$loginForm, $signupForm, $storiesLists, $submitForm];
   components.forEach((c) => c.hide());
